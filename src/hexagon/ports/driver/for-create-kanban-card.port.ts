@@ -1,4 +1,4 @@
-import { KanbanCardDto } from '@/hexagon/entities'
+import { KanbanCardDto } from '@src/hexagon/entities'
 
 export interface ForCreateKanbanCardPort {
   forCreateKanbanCard: (

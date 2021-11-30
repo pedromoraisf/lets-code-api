@@ -4,14 +4,14 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "lint": "./node_modules/.bin/eslint 'src/**' --fix",
-    "fmt": "prettier --write ./src",
+    "lint": "./node_modules/.bin/eslint 'src/**' 'tests/**' --fix",
+    "fmt": "prettier --write ./src ./tests",
     "test": "jest --passWithNoTests --runInBand",
     "test:unit": "npm run test --watch -c jest-unit.config.js",
     "test:integration": "npm run test --watch -c jest-integration.config.js",
     "test:staged": "npm run test --findRelatedTests",
     "test:ci": "npm run test --coverage",
-    "test:acceptance:e2e:dev": "newman run ./acceptance/e2e/lets-code-api.postman_collection.json -e ./acceptance/e2e/lets-code-api-dev.postman_environment.json"
+    "test:acceptance:e2e:dev": "newman run ./tests/acceptance/lets-code-api.postman_collection.json -e ./tests/acceptance/lets-code-api-dev.postman_environment.json"
   },
   "author": "",
   "license": "ISC",

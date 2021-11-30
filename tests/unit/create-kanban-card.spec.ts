@@ -1,4 +1,4 @@
-import { CreateKanbanCardUseCase } from '@/hexagon/usecases'
+import { CreateKanbanCardUseCase } from '@src/hexagon/usecases'
 
 const makeFixture = ({
   title = 'any_title',
