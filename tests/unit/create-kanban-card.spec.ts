@@ -68,5 +68,25 @@ describe('Create Kanban Card Use Case', () => {
     })
   })
 
-  test.todo('should return the created kanban card if operation dont have errors')
+  test('should return the created kanban card if operation dont have errors', async () => {
+    const { sut, storeKanbanCardAdapterInMemory } = makeSut()
+
+    jest.spyOn(storeKanbanCardAdapterInMemory, 'storeKanbanCard').mockReturnValueOnce(
+      Promise.resolve({
+        id: 'any_id',
+        title: 'any_title',
+        content: 'any_content',
+        list: 'any_list'
+      })
+    )
+
+    const testable = await sut.execute(makeFixture())
+
+    expect(testable).toEqual({
+      id: 'any_id',
+      title: 'any_title',
+      content: 'any_content',
+      list: 'any_list'
+    })
+  })
 })
