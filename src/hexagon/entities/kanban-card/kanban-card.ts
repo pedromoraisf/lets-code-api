@@ -15,4 +15,20 @@ export class KanbanCard {
   static create(props: KanbanCardProps, id?: string): KanbanCard {
     return new KanbanCard(props, id)
   }
+
+  get id(): string {
+    return this._id
+  }
+
+  get title(): string {
+    return this._props.title
+  }
+
+  get content(): string {
+    return this._props.content
+  }
+
+  get list(): string {
+    return this._props.list
+  }
 }
