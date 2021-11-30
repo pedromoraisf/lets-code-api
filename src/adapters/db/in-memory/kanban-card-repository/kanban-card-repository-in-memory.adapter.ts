@@ -1,14 +1,16 @@
 import { ForStoreKanbanCardPort } from '@src/hexagon/ports/driven'
+import { KanbanCard } from '@src/hexagon/entities'
 
 export class KanbanCardRepositoryAdapterInMemory implements ForStoreKanbanCardPort {
+  private readonly _kanbanCards: any[] = []
+
   async storeKanbanCard(
     data: ForStoreKanbanCardPort.Params
   ): Promise<ForStoreKanbanCardPort.Result> {
-    return await Promise.resolve({
-      id: 'any_id',
-      title: 'any_title',
-      content: 'any_content',
-      list: 'any_list'
-    })
+    const kanbanCard = KanbanCard.create(data)
+
+    this._kanbanCards.push(kanbanCard)
+
+    return await Promise.resolve(kanbanCard)
   }
 }
