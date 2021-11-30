@@ -5,9 +5,11 @@ export class CreateKanbanCardUseCase implements ForCreateKanbanCardPort {
   constructor(private readonly forStoreKanbanCard: ForStoreKanbanCardPort) {}
 
   async execute(data: ForCreateKanbanCardPort.Params): Promise<ForCreateKanbanCardPort.Result> {
-    if (!this.validate(data)) {
+    if (this.validate(data)) {
       throw new Error()
     }
+
+    await this.forStoreKanbanCard.storeKanbanCard(data)
 
     return await Promise.resolve({} as any)
   }
