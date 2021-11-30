@@ -6,7 +6,7 @@ jobs:
   unit-and-integration:
     runs-on: ubuntu-latest
 
-    container: node:14-alpine
+    container: node:15-alpine
 
     steps:
       - uses: actions/checkout@v2
@@ -20,7 +20,7 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
 
-    container: node:14-alpine
+    container: node:15-alpine
 
     steps:
       - uses: actions/checkout@v2
