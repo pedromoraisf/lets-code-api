@@ -9,9 +9,7 @@ export class CreateKanbanCardUseCase implements ForCreateKanbanCardPort {
       throw new Error()
     }
 
-    await this.forStoreKanbanCard.storeKanbanCard(data)
-
-    return await Promise.resolve({} as any)
+    return await this.forStoreKanbanCard.storeKanbanCard(data)
   }
 
   private validate(data: ForCreateKanbanCardPort.Params): boolean {
