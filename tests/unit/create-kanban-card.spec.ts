@@ -1,3 +1,5 @@
+import { KanbanCardRepositoryAdapterInMemory } from '@src/adapters/db'
+import { ForStoreKanbanCardPort } from '@src/hexagon/ports/driven'
 import { CreateKanbanCardUseCase } from '@src/hexagon/usecases'
 
 const makeFixture = ({
@@ -12,13 +14,17 @@ const makeFixture = ({
 
 type SutTypes = {
   sut: CreateKanbanCardUseCase
+  createKanbanCardAdapterInMemory: ForStoreKanbanCardPort
 }
 
 const makeSut = (): SutTypes => {
-  const sut = new CreateKanbanCardUseCase()
+  const createKanbanCardAdapterInMemory = new KanbanCardRepositoryAdapterInMemory()
+
+  const sut = new CreateKanbanCardUseCase(createKanbanCardAdapterInMemory)
 
   return {
-    sut
+    sut,
+    createKanbanCardAdapterInMemory
   }
 }
 

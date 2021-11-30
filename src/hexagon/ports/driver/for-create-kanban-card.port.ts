@@ -1,9 +1,7 @@
 import { KanbanCardDto } from '@src/hexagon/entities'
 
 export interface ForCreateKanbanCardPort {
-  forCreateKanbanCard: (
-    data: ForCreateKanbanCardPort.Params
-  ) => Promise<ForCreateKanbanCardPort.Result>
+  execute: (data: ForCreateKanbanCardPort.Params) => Promise<ForCreateKanbanCardPort.Result>
 }
 
 export namespace ForCreateKanbanCardPort {

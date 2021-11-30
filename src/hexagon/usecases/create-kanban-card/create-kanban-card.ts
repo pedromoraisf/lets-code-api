@@ -1,7 +1,7 @@
 import { ForStoreKanbanCardPort } from '@src/hexagon/ports/driven'
 import { ForCreateKanbanCardPort } from '@src/hexagon/ports/driver'
 
-export class CreateKanbanCardUseCase {
+export class CreateKanbanCardUseCase implements ForCreateKanbanCardPort {
   constructor(private readonly forStoreKanbanCard: ForStoreKanbanCardPort) {}
 
   async execute(data: ForCreateKanbanCardPort.Params): Promise<ForCreateKanbanCardPort.Result> {

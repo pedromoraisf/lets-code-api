@@ -1,7 +1,5 @@
 export interface ForStoreKanbanCardPort {
-  forStoreKanbanCard: (
-    data: ForStoreKanbanCardPort.Params
-  ) => Promise<ForStoreKanbanCardPort.Result>
+  storeKanbanCard: (data: ForStoreKanbanCardPort.Params) => Promise<ForStoreKanbanCardPort.Result>
 }
 
 export namespace ForStoreKanbanCardPort {
