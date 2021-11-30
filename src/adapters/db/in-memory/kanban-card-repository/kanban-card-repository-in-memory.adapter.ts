@@ -1,6 +1,14 @@
-import { KanbanCardDto } from '@src/hexagon/entities'
-import { ForCreateKanbanCardPort } from '@src/hexagon/ports/driver'
+import { ForStoreKanbanCardPort } from '@src/hexagon/ports/driven'
 
-export class KanbanCardRepositoryInMemory implements ForCreateKanbanCardPort {
-  forCreateKanbanCard: (data: ForCreateKanbanCardPort.Params) => Promise<KanbanCardDto>
+export class KanbanCardRepositoryAdapterInMemory implements ForStoreKanbanCardPort {
+  async storeKanbanCard(
+    data: ForStoreKanbanCardPort.Params
+  ): Promise<ForStoreKanbanCardPort.Result> {
+    return await Promise.resolve({
+      id: 'any_id',
+      title: 'any_title',
+      content: 'any_content',
+      list: 'any_list'
+    })
+  }
 }
