@@ -14,17 +14,17 @@ const makeFixture = ({
 
 type SutTypes = {
   sut: CreateKanbanCardUseCase
-  createKanbanCardAdapterInMemory: ForStoreKanbanCardPort
+  storeKanbanCardAdapterInMemory: ForStoreKanbanCardPort
 }
 
 const makeSut = (): SutTypes => {
-  const createKanbanCardAdapterInMemory = new KanbanCardRepositoryAdapterInMemory()
+  const storeKanbanCardAdapterInMemory = new KanbanCardRepositoryAdapterInMemory()
 
-  const sut = new CreateKanbanCardUseCase(createKanbanCardAdapterInMemory)
+  const sut = new CreateKanbanCardUseCase(storeKanbanCardAdapterInMemory)
 
   return {
     sut,
-    createKanbanCardAdapterInMemory
+    storeKanbanCardAdapterInMemory
   }
 }
 
@@ -41,21 +41,31 @@ describe('Create Kanban Card Use Case', () => {
 
   describe('Create kanban card repository', () => {
     test('should call repository method correctly', async () => {
-      const { sut, createKanbanCardAdapterInMemory } = makeSut()
+      const { sut, storeKanbanCardAdapterInMemory } = makeSut()
 
-      jest.spyOn(createKanbanCardAdapterInMemory, 'storeKanbanCard')
+      jest.spyOn(storeKanbanCardAdapterInMemory, 'storeKanbanCard')
 
       await sut.execute(makeFixture())
 
-      expect(createKanbanCardAdapterInMemory.storeKanbanCard).toHaveBeenCalledTimes(1)
-      expect(createKanbanCardAdapterInMemory.storeKanbanCard).toHaveBeenCalledWith({
+      expect(storeKanbanCardAdapterInMemory.storeKanbanCard).toHaveBeenCalledTimes(1)
+      expect(storeKanbanCardAdapterInMemory.storeKanbanCard).toHaveBeenCalledWith({
         title: makeFixture().title,
         content: makeFixture().content,
         list: makeFixture().list
       })
     })
 
-    test.todo('should throw an error if repository throw a low-level error')
+    test('should throw an error if repository throw a low-level error', async () => {
+      const { sut, storeKanbanCardAdapterInMemory } = makeSut()
+
+      jest
+        .spyOn(storeKanbanCardAdapterInMemory, 'storeKanbanCard')
+        .mockReturnValueOnce(Promise.reject(new Error('any_low_level_error')))
+
+      const testable = async () => await sut.execute(makeFixture())
+
+      return await expect(testable).rejects.toThrowError(new Error('any_low_level_error'))
+    })
   })
 
   test.todo('should return the created kanban card if operation dont have errors')
