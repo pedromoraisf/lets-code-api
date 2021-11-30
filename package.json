@@ -1,0 +1,16 @@
+{
+  "name": "lets-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:acceptance:e2e:dev": "newman run ./acceptance/e2e/lets-code-api.postman_collection.json -e ./acceptance/e2e/lets-code-api-dev.postman_environment.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "git-commit-msg-linter": "^3.2.6",
+    "jest": "^27.0.6",
+    "newman": "^5.3.0"
+  }
+}
