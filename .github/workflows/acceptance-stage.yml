@@ -3,6 +3,20 @@ name: Acceptance Stage
 on: ['push']
 
 jobs:
+  unit-and-integration:
+    runs-on: ubuntu-latest
+
+    container: node:14-alpine
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Unit, Integration Tests and Collect Code Coverage
+        run: npm run test:ci
+
   e2e:
     runs-on: ubuntu-latest
 
