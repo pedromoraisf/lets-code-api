@@ -1,5 +1,37 @@
+import { CreateKanbanCardUseCase } from '@/hexagon/usecases'
+
+const makeFixture = ({
+  title = 'any_title',
+  content = 'any_content',
+  list = 'any_list'
+} = {}): any => ({
+  title,
+  content,
+  list
+})
+
+type SutTypes = {
+  sut: CreateKanbanCardUseCase
+}
+
+const makeSut = (): SutTypes => {
+  const sut = new CreateKanbanCardUseCase()
+
+  return {
+    sut
+  }
+}
+
 describe('Create Kanban Card Use Case', () => {
-  test.todo('should validate that title, content and list are filled')
+  test('should validate that title, content and list are filled', async () => {
+    const { sut } = makeSut()
+
+    const wrongFixture = makeFixture({ title: undefined })
+
+    const testable = async () => await sut.execute(wrongFixture)
+
+    await expect(testable).rejects.toThrowError()
+  })
 
   describe('Create kanban card repository', () => {
     test.todo('should call repository method correctly')
