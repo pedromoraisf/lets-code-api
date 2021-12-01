@@ -264,7 +264,7 @@
 							"pm.test(\"should receive all persisted cards data in response\", function () {",
 							"    const response = pm.response.json()",
 							"",
-							"    pm.expect(response).to.equal([])",
+							"    pm.expect(response).to.eqls([])",
 							"})"
 						],
 						"type": "text/javascript"
