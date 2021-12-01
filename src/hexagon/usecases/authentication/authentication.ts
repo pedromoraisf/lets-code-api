@@ -11,11 +11,9 @@ export class AuthenticationUseCase implements ForAuthenticationPort {
   async execute(data: ForAuthenticationPort.Params): Promise<ForAuthenticationPort.Result> {
     const user = await this.forFindUserPort.findUser(data)
 
-    this.forGenerateEncryptedCodePort.generateEncryptedCode({
+    return this.forGenerateEncryptedCodePort.generateEncryptedCode({
       lifetime: 3600,
       toEncrypt: user
     })
-
-    return await Promise.resolve({} as any)
   }
 }

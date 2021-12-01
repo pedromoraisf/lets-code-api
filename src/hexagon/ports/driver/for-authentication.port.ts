@@ -8,5 +8,5 @@ export interface ForAuthenticationPort {
 export namespace ForAuthenticationPort {
   export type Params = Omit<UserDto, 'id'>
 
-  export type Result = boolean
+  export type Result = string
 }
