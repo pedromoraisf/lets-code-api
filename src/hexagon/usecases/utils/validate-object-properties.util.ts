@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/indent */
 export const validateObjectProperties =
   (requiredProps: string[] = []) =>
   (data: {}) => {

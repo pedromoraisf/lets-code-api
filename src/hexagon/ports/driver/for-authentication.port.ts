@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { UserDto } from '@src/hexagon/entities/user'
+import { BearerToken } from '@src/hexagon/value-objects'
 
 export interface ForAuthenticationPort {
   execute: (data: ForAuthenticationPort.Params) => Promise<ForAuthenticationPort.Result>
@@ -8,5 +8,5 @@ export interface ForAuthenticationPort {
 export namespace ForAuthenticationPort {
   export type Params = Omit<UserDto, 'id'>
 
-  export type Result = string
+  export type Result = BearerToken
 }

@@ -1,3 +1,5 @@
+import { BearerToken } from '@src/hexagon/value-objects'
+
 export interface ForGenerateEncryptedCodePort {
   generateEncryptedCode: (
     data: ForGenerateEncryptedCodePort.Params
@@ -10,5 +12,5 @@ export namespace ForGenerateEncryptedCodePort {
     toEncrypt: any
   }
 
-  export type Result = string
+  export type Result = BearerToken
 }

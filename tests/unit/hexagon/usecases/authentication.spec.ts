@@ -4,7 +4,7 @@ import { ForFindUserPort } from '@src/hexagon/ports/driven'
 import { ForGenerateEncryptedCodePort } from '@src/hexagon/ports/driven/crypto'
 import { AuthenticationUseCase } from '@src/hexagon/usecases/authentication'
 
-const makeFixture = ({ username = 'any_username', password = 'any_password' }: any = {}) => ({
+const makeFixture = ({ username = 'letscode', password = 'lets@123' }: any = {}) => ({
   username,
   password
 })
@@ -84,6 +84,10 @@ describe('Authentication Use Case', () => {
 
     const testable = await sut.execute(makeFixture())
 
-    expect(testable).toEqual('any_encrypted_fake_code')
+    expect(testable).toEqual({
+      access_token: '1'.repeat(51),
+      expires_in: 3600,
+      token_type: 'Bearer'
+    })
   })
 })

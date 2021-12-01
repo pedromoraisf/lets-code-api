@@ -4,6 +4,10 @@ export class GenerateEncryptedCodeMockAdapter implements ForGenerateEncryptedCod
   generateEncryptedCode(
     data: ForGenerateEncryptedCodePort.Params
   ): ForGenerateEncryptedCodePort.Result {
-    return 'any_encrypted_fake_code'
+    return {
+      access_token: '1'.repeat(51),
+      expires_in: data.lifetime,
+      token_type: 'Bearer'
+    }
   }
 }

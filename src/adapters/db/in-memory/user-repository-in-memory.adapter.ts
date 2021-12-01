@@ -4,7 +4,7 @@ import { ForFindUserPort } from '@src/hexagon/ports/driven'
 
 export class UserRepositoryInMemoryAdapter implements ForFindUserPort {
   private readonly _users: UserDto[] = [
-    { id: randomUUID(), username: 'any_username', password: 'any_password' }
+    { id: randomUUID(), username: 'letscode', password: 'lets@123' }
   ]
 
   async findUser(data: ForFindUserPort.Params): Promise<ForFindUserPort.Result> {
