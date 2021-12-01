@@ -1,3 +1,5 @@
+import { KanbanCardRepositoryAdapterInMemory } from '@src/adapters/db'
+import { ForUpdateKanbanCardPort } from '@src/hexagon/ports/driven'
 import { ChangeKanbanCardUseCase } from '@src/hexagon/usecases'
 
 const makeFixture = ({
@@ -14,13 +16,17 @@ const makeFixture = ({
 
 type SutTypes = {
   sut: ChangeKanbanCardUseCase
+  updateKanbanCardAdapterInMemory: ForUpdateKanbanCardPort
 }
 
 const makeSut = (): SutTypes => {
-  const sut = new ChangeKanbanCardUseCase()
+  const updateKanbanCardAdapterInMemory = new KanbanCardRepositoryAdapterInMemory()
+
+  const sut = new ChangeKanbanCardUseCase(updateKanbanCardAdapterInMemory)
 
   return {
-    sut
+    sut,
+    updateKanbanCardAdapterInMemory
   }
 }
 
@@ -33,5 +39,20 @@ describe('Change Kanban Card Use Case', () => {
     const testable = async () => await sut.execute(wrongFixture)
 
     return await expect(testable).rejects.toThrowError()
+  })
+
+  describe('Update kanban card repository', () => {
+    test('should call repository method correctly', async () => {
+      const { sut, updateKanbanCardAdapterInMemory } = makeSut()
+
+      jest.spyOn(updateKanbanCardAdapterInMemory, 'updateKanbanCard')
+
+      await sut.execute(makeFixture())
+
+      expect(updateKanbanCardAdapterInMemory.updateKanbanCard).toHaveBeenCalledTimes(1)
+      expect(updateKanbanCardAdapterInMemory.updateKanbanCard).toHaveBeenCalledWith(makeFixture())
+    })
+
+    test.todo('should throw an error if repository throw a low-level error')
   })
 })
