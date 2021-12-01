@@ -2,6 +2,13 @@ import { KanbanCardRepositoryInMemoryAdapter } from '@src/adapters/db'
 import { ForDeleteKanbanCardPort } from '@src/hexagon/ports/driven'
 import { RemoveKanbanCardUseCase } from '@src/hexagon/usecases'
 
+const makeKanbanCardFake = () => ({
+  id: 'any_id',
+  title: 'any_title',
+  content: 'any_content',
+  list: 'any_list'
+})
+
 const makeFixture = ({ id = 'any_id' }: any = {}) => ({
   id
 })
@@ -58,5 +65,17 @@ describe('Remove Kanban Card Use Case', () => {
     })
   })
 
-  test.todo('should return kanban cards list if operation dont have errors')
+  test('should return kanban cards list if operation dont have errors', async () => {
+    const { sut, deleteKanbanCardInMemoryAdapter } = makeSut()
+
+    jest
+      .spyOn(deleteKanbanCardInMemoryAdapter, 'deleteKanbanCard')
+      .mockReturnValueOnce(
+        Promise.resolve([makeKanbanCardFake(), makeKanbanCardFake(), makeKanbanCardFake()])
+      )
+
+    const testable = await sut.execute(makeFixture())
+
+    expect(testable).toEqual([makeKanbanCardFake(), makeKanbanCardFake(), makeKanbanCardFake()])
+  })
 })
