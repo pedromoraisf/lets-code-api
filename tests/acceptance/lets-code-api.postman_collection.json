@@ -12,7 +12,6 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"",
 							"pm.test(\"should receive ok status code, equal to 200\", function () {",
 							"    const detailedResponse = pm.response.toJSON()",
 							"",
@@ -76,9 +75,10 @@
 							"    pm.expect(detailedResponse.code).to.equal(202)",
 							"})",
 							"",
-							"const response = pm.response.json()",
 							"",
 							"pm.test(\"should receive created card data in response\", function () {    ",
+							"    const response = pm.response.json()",
+							"",
 							"    pm.expect(typeof response.id).to.equal(\"string\")",
 							"",
 							"    const UUID_LENGTH = 36",
@@ -90,8 +90,8 @@
 							"})",
 							"",
 							"const SUCCESS_CASE = 202",
-							"if (response.statusCode === SUCCESS_CASE)",
-							"    postman.setEnvironmentVariable(\"v-created-card-id\", response.id);",
+							"if (pm.response.toJSON().code === SUCCESS_CASE)",
+							"    postman.setEnvironmentVariable(\"v-created-card-id\", pm.response.json().id);",
 							""
 						],
 						"type": "text/javascript"
