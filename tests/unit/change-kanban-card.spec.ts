@@ -65,4 +65,16 @@ describe('Change Kanban Card Use Case', () => {
       return await expect(testable).rejects.toThrowError(new Error('any_low_level_error'))
     })
   })
+
+  test('should return the changed kanban card if operation dont have errors', async () => {
+    const { sut, updateKanbanCardAdapterInMemory } = makeSut()
+
+    jest
+      .spyOn(updateKanbanCardAdapterInMemory, 'updateKanbanCard')
+      .mockReturnValueOnce(Promise.resolve(makeFixture()))
+
+    const testable = await sut.execute(makeFixture())
+
+    expect(testable).toEqual(makeFixture())
+  })
 })
