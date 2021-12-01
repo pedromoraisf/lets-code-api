@@ -12,15 +12,17 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"",
 							"pm.test(\"should receive ok status code, equal to 200\", function () {",
 							"    const detailedResponse = pm.response.toJSON()",
 							"",
 							"    pm.expect(detailedResponse.code).to.equal(200)",
 							"})",
 							"",
-							"const response = pm.response.json()",
 							"",
 							"pm.test(\"should receive bearer token data on body response\", function () {",
+							"    const response = pm.response.json()",
+							"",
 							"    pm.expect(typeof response.access_token).to.equal(\"string\")",
 							"    pm.expect(response.access_token.length).to.greaterThan(50)",
 							"",
@@ -30,8 +32,8 @@
 							"})",
 							"",
 							"const SUCCESS_CASE = 200",
-							"if (response.statusCode === SUCCESS_CASE)",
-							"    postman.setEnvironmentVariable(\"v-token\", response.access_token);"
+							"if (pm.response.toJSON().code === SUCCESS_CASE)",
+							"    postman.setEnvironmentVariable(\"v-token\", pm.response.json().access_token);"
 						],
 						"type": "text/javascript"
 					}
@@ -79,7 +81,7 @@
 							"pm.test(\"should receive created card data in response\", function () {    ",
 							"    pm.expect(typeof response.id).to.equal(\"string\")",
 							"",
-							"    const UUID_LENGTH = 32",
+							"    const UUID_LENGTH = 36",
 							"    pm.expect(response.id.length).to.equal(UUID_LENGTH)",
 							"",
 							"    pm.expect(response.title).to.equal(\"any_card_title\")",
