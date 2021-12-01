@@ -45,7 +45,17 @@ describe('Remove Kanban Card Use Case', () => {
       expect(deleteKanbanCardInMemoryAdapter.deleteKanbanCard).toHaveBeenCalledWith(makeFixture())
     })
 
-    test.todo('should throw an error if repository throw a low-level error')
+    test('should throw an error if repository throw a low-level error', async () => {
+      const { sut, deleteKanbanCardInMemoryAdapter } = makeSut()
+
+      jest
+        .spyOn(deleteKanbanCardInMemoryAdapter, 'deleteKanbanCard')
+        .mockReturnValueOnce(Promise.reject(new Error('any_low_level_error')))
+
+      const testable = async () => await sut.execute(makeFixture())
+
+      return await expect(testable).rejects.toThrowError(new Error('any_low_level_error'))
+    })
   })
 
   test.todo('should return kanban cards list if operation dont have errors')
