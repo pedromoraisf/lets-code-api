@@ -1,13 +1,7 @@
 import { KanbanCardRepositoryInMemoryAdapter } from '@src/adapters/db'
 import { ForFindAllKanbanCardsPort } from '@src/hexagon/ports/driven'
 import { ListKanbanCardsUseCase } from '@src/hexagon/usecases'
-
-const makeKanbanCardFake = () => ({
-  id: 'any_id',
-  title: 'any_title',
-  content: 'any_content',
-  list: 'any_list'
-})
+import { makeKanbanCardStub } from '@tests/unit/hexagon/entities/stubs'
 
 type SutTypes = {
   sut: ListKanbanCardsUseCase
@@ -56,11 +50,11 @@ describe('List Kanban Cards Use Case', () => {
     jest
       .spyOn(findAllKanbanCardsInMemoryAdapter, 'findAllKanbanCards')
       .mockReturnValueOnce(
-        Promise.resolve([makeKanbanCardFake(), makeKanbanCardFake(), makeKanbanCardFake()])
+        Promise.resolve([makeKanbanCardStub(), makeKanbanCardStub(), makeKanbanCardStub()])
       )
 
     const testable = await sut.execute()
 
-    expect(testable).toEqual([makeKanbanCardFake(), makeKanbanCardFake(), makeKanbanCardFake()])
+    expect(testable).toEqual([makeKanbanCardStub(), makeKanbanCardStub(), makeKanbanCardStub()])
   })
 })
