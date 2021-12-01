@@ -1,4 +1,6 @@
 import { KanbanCardRepositoryInMemoryAdapter } from '@src/adapters/db'
 
-export const makeKanbanCardRepositoryInMemoryAdapter = () =>
-  new KanbanCardRepositoryInMemoryAdapter()
+const makeKanbanCardRepositoryInMemoryAdapter = () => new KanbanCardRepositoryInMemoryAdapter()
+
+export const kanbanCardRepositoryInMemoryAdapterSingleton =
+  makeKanbanCardRepositoryInMemoryAdapter()
