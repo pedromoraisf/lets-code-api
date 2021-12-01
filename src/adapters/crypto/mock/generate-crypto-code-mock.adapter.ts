@@ -1,6 +1,6 @@
 import { ForGenerateEncryptedCodePort } from '@src/hexagon/ports/driven/crypto'
 
-export class GenerateCryptoCodeMockAdapter implements ForGenerateEncryptedCodePort {
+export class GenerateEncryptedCodeMockAdapter implements ForGenerateEncryptedCodePort {
   generateEncryptedCode(
     data: ForGenerateEncryptedCodePort.Params
   ): ForGenerateEncryptedCodePort.Result {

@@ -6,7 +6,7 @@ export interface ForGenerateEncryptedCodePort {
 
 export namespace ForGenerateEncryptedCodePort {
   export type Params = {
-    lifetime: Date
+    lifetime: number
     toEncrypt: any
   }
 
