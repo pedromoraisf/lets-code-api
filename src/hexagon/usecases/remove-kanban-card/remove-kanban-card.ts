@@ -10,9 +10,7 @@ export class RemoveKanbanCardUseCase implements ForRemoveKanbanCardPort {
       throw new Error()
     }
 
-    await this.forDeleteKanbanCardPort.deleteKanbanCard(data)
-
-    return await Promise.resolve([] as any)
+    return await this.forDeleteKanbanCardPort.deleteKanbanCard(data)
   }
 
   private readonly haveFalsyProperty = validateObjectProperties(['id'])
