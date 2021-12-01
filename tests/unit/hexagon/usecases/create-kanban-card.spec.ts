@@ -39,7 +39,7 @@ describe('Create Kanban Card Use Case', () => {
     await expect(testable).rejects.toThrowError()
   })
 
-  describe('Create kanban card repository', () => {
+  describe('Store kanban card repository', () => {
     test('should call repository method correctly', async () => {
       const { sut, storeKanbanCardAdapterInMemory } = makeSut()
 
