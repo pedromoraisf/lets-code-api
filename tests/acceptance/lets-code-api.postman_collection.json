@@ -1,307 +1,333 @@
 {
-  "info": {
-    "_postman_id": "ad1e34c9-1795-4997-8639-c0efa99466ef",
-    "name": "lets-code-api",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Login",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"should receive ok status code, equal to 200\", function () {",
-              "    const detailedResponse = pm.response.toJSON()",
-              "",
-              "    pm.expect(detailedResponse.code).to.equal(200)",
-              "})",
-              "",
-              "const response = pm.response.json()",
-              "",
-              "pm.test(\"should receive bearer token data on body response\", function () {",
-              "    pm.expect(typeof response.access_token).to.equal(\"string\")",
-              "    pm.expect(response.access_token.length).to.greaterThan(50)",
-              "",
-              "    pm.expect(response.expires_in).to.equal(3600)",
-              "    ",
-              "    pm.expect(response.token_type).to.equal(\"Bearer\")",
-              "})",
-              "",
-              "const SUCCESS_CASE = 200",
-              "if (response.statusCode === SUCCESS_CASE)",
-              "    postman.setEnvironmentVariable(\"v-token\", response.access_token);"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"login\": \"{{v-login}}\",\n    \"senha\": \"{{v-passwoed}}\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{base-url}}/login",
-          "host": ["{{base-url}}"],
-          "path": ["login"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Create card",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"should receive created status code, equal to 202\", function () {",
-              "    const detailedResponse = pm.response.toJSON()",
-              "",
-              "    pm.expect(detailedResponse.code).to.equal(202)",
-              "})",
-              "",
-              "const response = pm.response.json()",
-              "",
-              "pm.test(\"should receive created card data in response\", function () {    ",
-              "    pm.expect(typeof response.id).to.equal(\"string\")",
-              "",
-              "    const UUID_LENGTH = 32",
-              "    pm.expect(response.id.length).to.equal(UUID_LENGTH)",
-              "",
-              "    pm.expect(response.title).to.equal(\"any_card_title\")",
-              "    pm.expect(response.content).to.equal(\"any_card_content\")",
-              "    pm.expect(response.list).to.equal(\"any_card_list\")",
-              "})",
-              "",
-              "const SUCCESS_CASE = 202",
-              "if (response.statusCode === SUCCESS_CASE)",
-              "    postman.setEnvironmentVariable(\"v-created-card-id\", response.id);",
-              ""
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{v-token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"title\": \"any_card_title\",\n    \"content\": \"any_card_content\",\n    \"list\": \"any_card_list\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{base-url}}/cards",
-          "host": ["{{base-url}}"],
-          "path": ["cards"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Edit card",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"should receive ok status code, equal to 200\", function () {",
-              "    const detailedResponse = pm.response.toJSON()",
-              "",
-              "    pm.expect(detailedResponse.code).to.equal(200)",
-              "})",
-              "",
-              "pm.test(\"should receive updated card data in response\", function () { ",
-              "    const response = pm.response.json()",
-              "",
-              "    pm.expect(response).to.equal({",
-              "        id: pm.environment.get(\"v-created-card-id\"), ",
-              "        title: \"any_edited_card_title\", ",
-              "        content: \"any_edited_card_content\", ",
-              "        list: \"any_edited_card_list\"",
-              "    })",
-              "})"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{v-token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"title\": \"any_edited_card_title\",\n    \"content\": \"any_edited_card_content\",\n    \"list\": \"any_edited_card_list\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{base-url}}/cards/{{v-created-card-id}}",
-          "host": ["{{base-url}}"],
-          "path": ["cards", "{{v-created-card-id}}"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "List all Cards",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"should receive ok status code, equal to 200\", function () {",
-              "    const detailedResponse = pm.response.toJSON()",
-              "",
-              "    pm.expect(detailedResponse.code).to.equal(200)",
-              "})",
-              "",
-              "pm.test(\"should receive all created cards data in response\", function () {",
-              "    const response = pm.response.json()",
-              "",
-              "    pm.expect(response).to.equal([",
-              "        {",
-              "            id: pm.environment.get(\"v-created-card-id\"),",
-              "            title: \"any_edited_card_title\",",
-              "            content: \"any_edited_card_content\",",
-              "            list: \"any_edited_card_list\",",
-              "        }",
-              "    ])",
-              "})"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{v-token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base-url}}/cards",
-          "host": ["{{base-url}}"],
-          "path": ["cards"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Remove card",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"should receive ok status code, equal to 200\", function () {",
-              "    const detailedResponse = pm.response.toJSON()",
-              "",
-              "    pm.expect(detailedResponse.code).to.equal(200)",
-              "})",
-              "",
-              "pm.test(\"should receive all persisted cards data in response\", function () {",
-              "    const response = pm.response.json()",
-              "",
-              "    pm.expect(response).to.equal([])",
-              "})"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{v-token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{base-url}}/cards/{{v-created-card-id}}",
-          "host": ["{{base-url}}"],
-          "path": ["cards", "{{v-created-card-id}}"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Token authentication",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"should receive ok unauthorized code, equal to 401\", function () {",
-              "    const detailedResponse = pm.response.toJSON()",
-              "",
-              "    pm.expect(detailedResponse.code).to.equal(401)",
-              "})"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base-url}}/cards",
-          "host": ["{{base-url}}"],
-          "path": ["cards"]
-        }
-      },
-      "response": []
-    }
-  ]
+	"info": {
+		"_postman_id": "ad1e34c9-1795-4997-8639-c0efa99466ef",
+		"name": "lets-code-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"should receive ok status code, equal to 200\", function () {",
+							"    const detailedResponse = pm.response.toJSON()",
+							"",
+							"    pm.expect(detailedResponse.code).to.equal(200)",
+							"})",
+							"",
+							"const response = pm.response.json()",
+							"",
+							"pm.test(\"should receive bearer token data on body response\", function () {",
+							"    pm.expect(typeof response.access_token).to.equal(\"string\")",
+							"    pm.expect(response.access_token.length).to.greaterThan(50)",
+							"",
+							"    pm.expect(response.expires_in).to.equal(3600)",
+							"    ",
+							"    pm.expect(response.token_type).to.equal(\"Bearer\")",
+							"})",
+							"",
+							"const SUCCESS_CASE = 200",
+							"if (response.statusCode === SUCCESS_CASE)",
+							"    postman.setEnvironmentVariable(\"v-token\", response.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{v-login}}\",\n    \"password\": \"{{v-password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-url}}/login",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"should receive created status code, equal to 202\", function () {",
+							"    const detailedResponse = pm.response.toJSON()",
+							"",
+							"    pm.expect(detailedResponse.code).to.equal(202)",
+							"})",
+							"",
+							"const response = pm.response.json()",
+							"",
+							"pm.test(\"should receive created card data in response\", function () {    ",
+							"    pm.expect(typeof response.id).to.equal(\"string\")",
+							"",
+							"    const UUID_LENGTH = 32",
+							"    pm.expect(response.id.length).to.equal(UUID_LENGTH)",
+							"",
+							"    pm.expect(response.title).to.equal(\"any_card_title\")",
+							"    pm.expect(response.content).to.equal(\"any_card_content\")",
+							"    pm.expect(response.list).to.equal(\"any_card_list\")",
+							"})",
+							"",
+							"const SUCCESS_CASE = 202",
+							"if (response.statusCode === SUCCESS_CASE)",
+							"    postman.setEnvironmentVariable(\"v-created-card-id\", response.id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{v-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"any_card_title\",\n    \"content\": \"any_card_content\",\n    \"list\": \"any_card_list\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-url}}/cards",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"cards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"should receive ok status code, equal to 200\", function () {",
+							"    const detailedResponse = pm.response.toJSON()",
+							"",
+							"    pm.expect(detailedResponse.code).to.equal(200)",
+							"})",
+							"",
+							"pm.test(\"should receive updated card data in response\", function () { ",
+							"    const response = pm.response.json()",
+							"",
+							"    pm.expect(response).to.equal({",
+							"        id: pm.environment.get(\"v-created-card-id\"), ",
+							"        title: \"any_edited_card_title\", ",
+							"        content: \"any_edited_card_content\", ",
+							"        list: \"any_edited_card_list\"",
+							"    })",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{v-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"any_edited_card_title\",\n    \"content\": \"any_edited_card_content\",\n    \"list\": \"any_edited_card_list\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-url}}/cards/{{v-created-card-id}}",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"cards",
+						"{{v-created-card-id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all Cards",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"should receive ok status code, equal to 200\", function () {",
+							"    const detailedResponse = pm.response.toJSON()",
+							"",
+							"    pm.expect(detailedResponse.code).to.equal(200)",
+							"})",
+							"",
+							"pm.test(\"should receive all created cards data in response\", function () {",
+							"    const response = pm.response.json()",
+							"",
+							"    pm.expect(response).to.equal([",
+							"        {",
+							"            id: pm.environment.get(\"v-created-card-id\"),",
+							"            title: \"any_edited_card_title\",",
+							"            content: \"any_edited_card_content\",",
+							"            list: \"any_edited_card_list\",",
+							"        }",
+							"    ])",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{v-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/cards",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"cards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"should receive ok status code, equal to 200\", function () {",
+							"    const detailedResponse = pm.response.toJSON()",
+							"",
+							"    pm.expect(detailedResponse.code).to.equal(200)",
+							"})",
+							"",
+							"pm.test(\"should receive all persisted cards data in response\", function () {",
+							"    const response = pm.response.json()",
+							"",
+							"    pm.expect(response).to.equal([])",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{v-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/cards/{{v-created-card-id}}",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"cards",
+						"{{v-created-card-id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token authentication",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"should receive ok unauthorized code, equal to 401\", function () {",
+							"    const detailedResponse = pm.response.toJSON()",
+							"",
+							"    pm.expect(detailedResponse.code).to.equal(401)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/cards",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"cards"
+					]
+				}
+			},
+			"response": []
+		}
+	]
 }
