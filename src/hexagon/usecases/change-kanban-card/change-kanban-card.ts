@@ -10,9 +10,7 @@ export class ChangeKanbanCardUseCase implements ForChangeKanbanCardPort {
       throw new Error()
     }
 
-    await this.forUpdateKanbanCard.updateKanbanCard(data)
-
-    return await Promise.resolve({} as any)
+    return await this.forUpdateKanbanCard.updateKanbanCard(data)
   }
 
   private readonly haveFalsyProperty = validateObjectProperties(['id', 'title', 'content', 'list'])
