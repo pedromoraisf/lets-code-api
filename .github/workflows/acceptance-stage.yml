@@ -28,5 +28,8 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Build
+        run: npm run build
+
       - name: Run Server and E2E Tests
         run: npm run start & npm run test:acceptance:e2e:dev
