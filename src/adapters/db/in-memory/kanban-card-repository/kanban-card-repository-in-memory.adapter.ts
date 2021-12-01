@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/brace-style */
-import { ForStoreKanbanCardPort, ForUpdateKanbanCardPort } from '@src/hexagon/ports/driven'
-import { KanbanCard } from '@src/hexagon/entities'
+import {
+  ForFindAllKanbanCardsPort,
+  ForStoreKanbanCardPort,
+  ForUpdateKanbanCardPort
+} from '@src/hexagon/ports/driven'
+import { KanbanCard, KanbanCardDto } from '@src/hexagon/entities'
 
 export class KanbanCardRepositoryAdapterInMemory
-  implements ForStoreKanbanCardPort, ForUpdateKanbanCardPort
+  implements ForStoreKanbanCardPort, ForUpdateKanbanCardPort, ForFindAllKanbanCardsPort
 {
-  private readonly _kanbanCards: any[] = []
+  private readonly _kanbanCards: KanbanCardDto[] = []
 
   async storeKanbanCard(
     data: ForStoreKanbanCardPort.Params
@@ -26,5 +30,9 @@ export class KanbanCardRepositoryAdapterInMemory
     this._kanbanCards.splice(kanbanCardPosition, 1, data)
 
     return await Promise.resolve(data)
+  }
+
+  async findAllKanbanCards(): Promise<ForFindAllKanbanCardsPort.Result> {
+    return await Promise.resolve(this._kanbanCards)
   }
 }
