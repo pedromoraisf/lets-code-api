@@ -1,3 +1,5 @@
+import { KanbanCardRepositoryInMemoryAdapter } from '@src/adapters/db'
+import { ForDeleteKanbanCardPort } from '@src/hexagon/ports/driven'
 import { RemoveKanbanCardUseCase } from '@src/hexagon/usecases'
 
 const makeFixture = ({ id = 'any_id' }: any = {}) => ({
@@ -6,13 +8,17 @@ const makeFixture = ({ id = 'any_id' }: any = {}) => ({
 
 type SutTypes = {
   sut: RemoveKanbanCardUseCase
+  deleteKanbanCardInMemoryAdapter: ForDeleteKanbanCardPort
 }
 
 const makeSut = (): SutTypes => {
-  const sut = new RemoveKanbanCardUseCase()
+  const deleteKanbanCardInMemoryAdapter = new KanbanCardRepositoryInMemoryAdapter()
+
+  const sut = new RemoveKanbanCardUseCase(deleteKanbanCardInMemoryAdapter)
 
   return {
-    sut
+    sut,
+    deleteKanbanCardInMemoryAdapter
   }
 }
 
@@ -28,7 +34,16 @@ describe('Remove Kanban Card Use Case', () => {
   })
 
   describe('Delete kanban card repository', () => {
-    test.todo('should call repository method correctly')
+    test('should call repository method correctly', async () => {
+      const { sut, deleteKanbanCardInMemoryAdapter } = makeSut()
+
+      jest.spyOn(deleteKanbanCardInMemoryAdapter, 'deleteKanbanCard')
+
+      await sut.execute(makeFixture())
+
+      expect(deleteKanbanCardInMemoryAdapter.deleteKanbanCard).toHaveBeenCalledTimes(1)
+      expect(deleteKanbanCardInMemoryAdapter.deleteKanbanCard).toHaveBeenCalledWith(makeFixture())
+    })
 
     test.todo('should throw an error if repository throw a low-level error')
   })
