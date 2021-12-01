@@ -1,8 +1,11 @@
 import { ForFindUserPort } from '@src/hexagon/ports/driven'
 import { ForGenerateEncryptedCodePort } from '@src/hexagon/ports/driven/crypto'
 import { ForAuthenticationPort } from '@src/hexagon/ports/driver'
+import { UseCase } from '@src/hexagon/usecases/protocols'
 
-export class AuthenticationUseCase implements ForAuthenticationPort {
+export class AuthenticationUseCase
+  implements UseCase<ForAuthenticationPort.Params, ForAuthenticationPort.Result>
+{
   constructor(
     private readonly forFindUserPort: ForFindUserPort,
     private readonly forGenerateEncryptedCodePort: ForGenerateEncryptedCodePort

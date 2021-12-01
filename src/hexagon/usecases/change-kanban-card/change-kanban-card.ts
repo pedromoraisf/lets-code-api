@@ -1,8 +1,11 @@
 import { ForUpdateKanbanCardPort } from '@src/hexagon/ports/driven'
 import { ForChangeKanbanCardPort } from '@src/hexagon/ports/driver'
 import { validateObjectProperties } from '@src/hexagon/usecases/utils'
+import { UseCase } from '@src/hexagon/usecases/protocols'
 
-export class ChangeKanbanCardUseCase implements ForChangeKanbanCardPort {
+export class ChangeKanbanCardUseCase
+  implements UseCase<ForChangeKanbanCardPort.Params, ForChangeKanbanCardPort.Result>
+{
   constructor(private readonly forUpdateKanbanCard: ForUpdateKanbanCardPort) {}
 
   async execute(data: ForChangeKanbanCardPort.Params): Promise<ForChangeKanbanCardPort.Result> {
