@@ -1,1 +1,1 @@
-export * from './kanban-card-repository'
+export * from './kanban-card-repository-in-memory.adapter'
