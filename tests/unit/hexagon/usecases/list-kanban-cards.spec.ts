@@ -2,6 +2,13 @@ import { KanbanCardRepositoryInMemoryAdapter } from '@src/adapters/db'
 import { ForFindAllKanbanCardsPort } from '@src/hexagon/ports/driven'
 import { ListKanbanCardsUseCase } from '@src/hexagon/usecases'
 
+const makeKanbanCardFake = () => ({
+  id: 'any_id',
+  title: 'any_title',
+  content: 'any_content',
+  list: 'any_list'
+})
+
 type SutTypes = {
   sut: ListKanbanCardsUseCase
   findAllKanbanCardsInMemoryAdapter: ForFindAllKanbanCardsPort
@@ -43,5 +50,17 @@ describe('List Kanban Cards Use Case', () => {
     })
   })
 
-  test.todo('should return kanban cards list if operation dont have errors')
+  test('should return kanban cards list if operation dont have errors', async () => {
+    const { sut, findAllKanbanCardsInMemoryAdapter } = makeSut()
+
+    jest
+      .spyOn(findAllKanbanCardsInMemoryAdapter, 'findAllKanbanCards')
+      .mockReturnValueOnce(
+        Promise.resolve([makeKanbanCardFake(), makeKanbanCardFake(), makeKanbanCardFake()])
+      )
+
+    const testable = await sut.execute()
+
+    expect(testable).toEqual([makeKanbanCardFake(), makeKanbanCardFake(), makeKanbanCardFake()])
+  })
 })
