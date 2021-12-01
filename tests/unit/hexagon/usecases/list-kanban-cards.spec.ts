@@ -30,7 +30,17 @@ describe('List Kanban Cards Use Case', () => {
       expect(findAllKanbanCardsInMemoryAdapter.findAllKanbanCards).toHaveBeenCalledTimes(1)
     })
 
-    test.todo('should throw an error if repository throw a low-level error')
+    test('should throw an error if repository throw a low-level error', async () => {
+      const { sut, findAllKanbanCardsInMemoryAdapter } = makeSut()
+
+      jest
+        .spyOn(findAllKanbanCardsInMemoryAdapter, 'findAllKanbanCards')
+        .mockReturnValueOnce(Promise.reject(new Error('any_low_level_error')))
+
+      const testable = async () => await sut.execute()
+
+      return await expect(testable).rejects.toThrowError(new Error('any_low_level_error'))
+    })
   })
 
   test.todo('should return kanban cards list if operation dont have errors')
