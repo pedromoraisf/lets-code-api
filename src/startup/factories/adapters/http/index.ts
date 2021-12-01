@@ -1,1 +1,1 @@
-export * from './authentication-express-adapter'
+export * from './authentication-express-adapter.factory'
