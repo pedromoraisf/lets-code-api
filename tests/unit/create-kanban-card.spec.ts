@@ -48,11 +48,7 @@ describe('Create Kanban Card Use Case', () => {
       await sut.execute(makeFixture())
 
       expect(storeKanbanCardAdapterInMemory.storeKanbanCard).toHaveBeenCalledTimes(1)
-      expect(storeKanbanCardAdapterInMemory.storeKanbanCard).toHaveBeenCalledWith({
-        title: makeFixture().title,
-        content: makeFixture().content,
-        list: makeFixture().list
-      })
+      expect(storeKanbanCardAdapterInMemory.storeKanbanCard).toHaveBeenCalledWith(makeFixture())
     })
 
     test('should throw an error if repository throw a low-level error', async () => {
