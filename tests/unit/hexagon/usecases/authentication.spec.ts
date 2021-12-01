@@ -79,5 +79,11 @@ describe('Authentication Use Case', () => {
     })
   })
 
-  test.todo('should return authentication token if operation dont have errors')
+  test('should return authentication token if operation dont have errors', async () => {
+    const { sut } = makeSut()
+
+    const testable = await sut.execute(makeFixture())
+
+    expect(testable).toEqual('any_encrypted_fake_code')
+  })
 })
