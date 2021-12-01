@@ -5,6 +5,7 @@ import {
   ForUpdateKanbanCardPort
 } from '@src/hexagon/ports/driven'
 import { KanbanCard, KanbanCardDto } from '@src/hexagon/entities'
+import { KanbanCardMapper } from '@src/hexagon/mappers'
 
 export class KanbanCardRepositoryInMemoryAdapter
   implements
@@ -18,7 +19,7 @@ export class KanbanCardRepositoryInMemoryAdapter
   async storeKanbanCard(
     data: ForStoreKanbanCardPort.Params
   ): Promise<ForStoreKanbanCardPort.Result> {
-    const kanbanCard = KanbanCard.create(data)
+    const kanbanCard = KanbanCardMapper.toPersistenceModel(KanbanCard.create(data))
 
     this._kanbanCards.push(kanbanCard)
 
