@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
-import { UseCase } from '@src/hexagon/usecases/protocols'
+import { AuthenticationUseCase } from '@src/hexagon/usecases/authentication'
 
 export class AuthenticationExpressAdapter {
-  constructor(private readonly usecase: UseCase) {}
+  constructor(private readonly authenticationUseCase: AuthenticationUseCase) {}
 
   handle = async ({ body, params, query }: Request, res: Response) => {
-    const result = await this.usecase.execute({
+    const result = await this.authenticationUseCase.execute({
       ...body,
       ...params,
       ...query
