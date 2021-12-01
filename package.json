@@ -2,11 +2,14 @@
   "name": "lets-code",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "src/startup/server.ts",
   "engines": {
     "node": ">=15"
   },
   "scripts": {
+    "clean": "rm -rf ./dist",
+    "build": "npm run clean && babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
+    "start": "node ./dist/startup/server.js",
     "lint": "./node_modules/.bin/eslint 'src/**' 'tests/**' --fix",
     "fmt": "prettier --write ./src ./tests",
     "test": "jest --passWithNoTests --runInBand --no-cache",
@@ -19,8 +22,17 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "7.12.13",
+    "@babel/core": "7.12.13",
+    "@babel/node": "7.12.13",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-env": "7.12.13",
+    "@babel/preset-typescript": "7.12.13",
+    "@types/express": "^4.17.13",
     "@types/jest": "^27.0.3",
     "@typescript-eslint/eslint-plugin": "^4",
+    "babel-plugin-add-module-exports": "1.0.4",
+    "babel-plugin-module-resolver": "4.1.0",
     "eslint": "^7",
     "eslint-config-standard-with-typescript": "^19.0.1",
     "eslint-plugin-import": "^2",
@@ -35,5 +47,9 @@
     "prettier": "^2.5.0",
     "ts-jest": "^27.0.7",
     "typescript": "^4.5.0"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
   }
 }
