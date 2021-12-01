@@ -1,4 +1,4 @@
-import { KanbanCardRepositoryAdapterInMemory } from '@src/adapters/db'
+import { KanbanCardRepositoryInMemoryAdapter } from '@src/adapters/db'
 import { ForUpdateKanbanCardPort } from '@src/hexagon/ports/driven'
 import { ChangeKanbanCardUseCase } from '@src/hexagon/usecases'
 
@@ -16,17 +16,17 @@ const makeFixture = ({
 
 type SutTypes = {
   sut: ChangeKanbanCardUseCase
-  updateKanbanCardAdapterInMemory: ForUpdateKanbanCardPort
+  updateKanbanCardInMemoryAdapter: ForUpdateKanbanCardPort
 }
 
 const makeSut = (): SutTypes => {
-  const updateKanbanCardAdapterInMemory = new KanbanCardRepositoryAdapterInMemory()
+  const updateKanbanCardInMemoryAdapter = new KanbanCardRepositoryInMemoryAdapter()
 
-  const sut = new ChangeKanbanCardUseCase(updateKanbanCardAdapterInMemory)
+  const sut = new ChangeKanbanCardUseCase(updateKanbanCardInMemoryAdapter)
 
   return {
     sut,
-    updateKanbanCardAdapterInMemory
+    updateKanbanCardInMemoryAdapter
   }
 }
 
@@ -43,21 +43,21 @@ describe('Change Kanban Card Use Case', () => {
 
   describe('Update kanban card repository', () => {
     test('should call repository method correctly', async () => {
-      const { sut, updateKanbanCardAdapterInMemory } = makeSut()
+      const { sut, updateKanbanCardInMemoryAdapter } = makeSut()
 
-      jest.spyOn(updateKanbanCardAdapterInMemory, 'updateKanbanCard')
+      jest.spyOn(updateKanbanCardInMemoryAdapter, 'updateKanbanCard')
 
       await sut.execute(makeFixture())
 
-      expect(updateKanbanCardAdapterInMemory.updateKanbanCard).toHaveBeenCalledTimes(1)
-      expect(updateKanbanCardAdapterInMemory.updateKanbanCard).toHaveBeenCalledWith(makeFixture())
+      expect(updateKanbanCardInMemoryAdapter.updateKanbanCard).toHaveBeenCalledTimes(1)
+      expect(updateKanbanCardInMemoryAdapter.updateKanbanCard).toHaveBeenCalledWith(makeFixture())
     })
 
     test('should throw an error if repository throw a low-level error', async () => {
-      const { sut, updateKanbanCardAdapterInMemory } = makeSut()
+      const { sut, updateKanbanCardInMemoryAdapter } = makeSut()
 
       jest
-        .spyOn(updateKanbanCardAdapterInMemory, 'updateKanbanCard')
+        .spyOn(updateKanbanCardInMemoryAdapter, 'updateKanbanCard')
         .mockReturnValueOnce(Promise.reject(new Error('any_low_level_error')))
 
       const testable = async () => await sut.execute(makeFixture())
@@ -67,10 +67,10 @@ describe('Change Kanban Card Use Case', () => {
   })
 
   test('should return the changed kanban card if operation dont have errors', async () => {
-    const { sut, updateKanbanCardAdapterInMemory } = makeSut()
+    const { sut, updateKanbanCardInMemoryAdapter } = makeSut()
 
     jest
-      .spyOn(updateKanbanCardAdapterInMemory, 'updateKanbanCard')
+      .spyOn(updateKanbanCardInMemoryAdapter, 'updateKanbanCard')
       .mockReturnValueOnce(Promise.resolve(makeFixture()))
 
     const testable = await sut.execute(makeFixture())

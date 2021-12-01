@@ -7,7 +7,7 @@ import {
 } from '@src/hexagon/ports/driven'
 import { KanbanCard, KanbanCardDto } from '@src/hexagon/entities'
 
-export class KanbanCardRepositoryAdapterInMemory
+export class KanbanCardRepositoryInMemoryAdapter
   implements ForStoreKanbanCardPort, ForUpdateKanbanCardPort, ForFindAllKanbanCardsPort
 {
   private readonly _kanbanCards: KanbanCardDto[] = []

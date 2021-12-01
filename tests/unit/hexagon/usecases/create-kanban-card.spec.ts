@@ -1,4 +1,4 @@
-import { KanbanCardRepositoryAdapterInMemory } from '@src/adapters/db'
+import { KanbanCardRepositoryInMemoryAdapter } from '@src/adapters/db'
 import { ForStoreKanbanCardPort } from '@src/hexagon/ports/driven'
 import { CreateKanbanCardUseCase } from '@src/hexagon/usecases'
 
@@ -14,17 +14,17 @@ const makeFixture = ({
 
 type SutTypes = {
   sut: CreateKanbanCardUseCase
-  storeKanbanCardAdapterInMemory: ForStoreKanbanCardPort
+  storeKanbanCardInMemoryAdapter: ForStoreKanbanCardPort
 }
 
 const makeSut = (): SutTypes => {
-  const storeKanbanCardAdapterInMemory = new KanbanCardRepositoryAdapterInMemory()
+  const storeKanbanCardInMemoryAdapter = new KanbanCardRepositoryInMemoryAdapter()
 
-  const sut = new CreateKanbanCardUseCase(storeKanbanCardAdapterInMemory)
+  const sut = new CreateKanbanCardUseCase(storeKanbanCardInMemoryAdapter)
 
   return {
     sut,
-    storeKanbanCardAdapterInMemory
+    storeKanbanCardInMemoryAdapter
   }
 }
 
@@ -41,21 +41,21 @@ describe('Create Kanban Card Use Case', () => {
 
   describe('Store kanban card repository', () => {
     test('should call repository method correctly', async () => {
-      const { sut, storeKanbanCardAdapterInMemory } = makeSut()
+      const { sut, storeKanbanCardInMemoryAdapter } = makeSut()
 
-      jest.spyOn(storeKanbanCardAdapterInMemory, 'storeKanbanCard')
+      jest.spyOn(storeKanbanCardInMemoryAdapter, 'storeKanbanCard')
 
       await sut.execute(makeFixture())
 
-      expect(storeKanbanCardAdapterInMemory.storeKanbanCard).toHaveBeenCalledTimes(1)
-      expect(storeKanbanCardAdapterInMemory.storeKanbanCard).toHaveBeenCalledWith(makeFixture())
+      expect(storeKanbanCardInMemoryAdapter.storeKanbanCard).toHaveBeenCalledTimes(1)
+      expect(storeKanbanCardInMemoryAdapter.storeKanbanCard).toHaveBeenCalledWith(makeFixture())
     })
 
     test('should throw an error if repository throw a low-level error', async () => {
-      const { sut, storeKanbanCardAdapterInMemory } = makeSut()
+      const { sut, storeKanbanCardInMemoryAdapter } = makeSut()
 
       jest
-        .spyOn(storeKanbanCardAdapterInMemory, 'storeKanbanCard')
+        .spyOn(storeKanbanCardInMemoryAdapter, 'storeKanbanCard')
         .mockReturnValueOnce(Promise.reject(new Error('any_low_level_error')))
 
       const testable = async () => await sut.execute(makeFixture())
@@ -65,9 +65,9 @@ describe('Create Kanban Card Use Case', () => {
   })
 
   test('should return the created kanban card if operation dont have errors', async () => {
-    const { sut, storeKanbanCardAdapterInMemory } = makeSut()
+    const { sut, storeKanbanCardInMemoryAdapter } = makeSut()
 
-    jest.spyOn(storeKanbanCardAdapterInMemory, 'storeKanbanCard').mockReturnValueOnce(
+    jest.spyOn(storeKanbanCardInMemoryAdapter, 'storeKanbanCard').mockReturnValueOnce(
       Promise.resolve({
         id: 'any_id',
         title: 'any_title',
