@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/indent */
-/* eslint-disable @typescript-eslint/brace-style */
 import {
   ForDeleteKanbanCardPort,
   ForFindAllKanbanCardsPort,

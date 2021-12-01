@@ -9,6 +9,8 @@
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-extraneous-class": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/brace-style": "off"
    }
 }
