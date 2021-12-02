@@ -10,8 +10,8 @@ dotenv.config({
 
 export const env = {
   CONFIG: {
-    HOST: String(process.env.HOST),
-    PORT: Number(process.env.PORT),
-    JWT_SECRET: process.env.JWT_SECRET
+    HOST: String(process.env.HOST) ?? '',
+    PORT: Number(process.env.PORT) ?? 3000,
+    JWT_SECRET: process.env.JWT_SECRET ?? ''
   }
 }
