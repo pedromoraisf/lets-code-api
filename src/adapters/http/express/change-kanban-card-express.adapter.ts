@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { ChangeKanbanCardUseCase } from '@src/hexagon/usecases'
-import { InvalidIdProvidedError } from '@src/hexagon/usecases/errors'
+import { InvalidIdProvidedError, InvalidParamsError } from '@src/hexagon/usecases/errors'
 
 export class ChangeKanbanCardExpressAdapter {
   constructor(private readonly changeKanbanCardUseCase: ChangeKanbanCardUseCase) {}
@@ -15,6 +15,10 @@ export class ChangeKanbanCardExpressAdapter {
 
       return res.status(200).send(result)
     } catch (error) {
+      if (error instanceof InvalidParamsError) {
+        return res.status(400).send(error.message)
+      }
+
       if (error instanceof InvalidIdProvidedError) {
         return res.status(404).send(error.message)
       }
