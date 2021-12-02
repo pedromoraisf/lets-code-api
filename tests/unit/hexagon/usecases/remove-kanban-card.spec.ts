@@ -16,6 +16,7 @@ type SutTypes = {
 const makeSut = (): SutTypes => {
   const deleteKanbanCardInMemoryAdapter: ForDeleteKanbanCardPort =
     new KanbanCardRepositoryInMemoryAdapter()
+  jest.spyOn(deleteKanbanCardInMemoryAdapter, 'deleteKanbanCard').mockReturnValue(Promise.resolve())
   const findAllKanbanCardsInMemoryAdapter: ForFindAllKanbanCardsPort =
     new KanbanCardRepositoryInMemoryAdapter()
 

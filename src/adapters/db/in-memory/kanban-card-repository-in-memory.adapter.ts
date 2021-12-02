@@ -6,6 +6,7 @@ import {
 } from '@src/hexagon/ports/driven'
 import { KanbanCard, KanbanCardDto } from '@src/hexagon/entities'
 import { KanbanCardMapper } from '@src/hexagon/mappers'
+import { InvalidIdProvidedError } from '@src/hexagon/usecases/errors'
 
 export class KanbanCardRepositoryInMemoryAdapter
   implements
@@ -44,6 +45,11 @@ export class KanbanCardRepositoryInMemoryAdapter
     data: ForDeleteKanbanCardPort.Params
   ): Promise<ForDeleteKanbanCardPort.Result> {
     const kanbanCardPosition = this._kanbanCards.findIndex(persisted => persisted.id === data.id)
+
+    const NOT_FOUND = -1
+    if (kanbanCardPosition === NOT_FOUND) {
+      throw new InvalidIdProvidedError()
+    }
 
     this._kanbanCards.splice(kanbanCardPosition, 1)
 
