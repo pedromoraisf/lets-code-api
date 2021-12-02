@@ -1,6 +1,5 @@
 import { KanbanCardRepositoryInMemoryAdapter } from '@src/adapters/db'
 import { RemoveKanbanCardExpressAdapter } from '@src/adapters/http'
-import { ForDeleteKanbanCardPort, ForFindAllKanbanCardsPort } from '@src/hexagon/ports/driven'
 import { RemoveKanbanCardUseCase } from '@src/hexagon/usecases'
 import { makeExpressResponseMock } from '@tests/integration/adapters/http/mocks'
 import { makeKanbanCardStub } from '@tests/integration/entities/stubs'
@@ -11,39 +10,23 @@ const makeFixture = ({ id = 'any_id' }: any = {}): any => ({
   query: {}
 })
 
-const makeKanbanCardRepositoryInMemoryAdapter = async () => {
-  const inMemory = new KanbanCardRepositoryInMemoryAdapter()
-
-  await inMemory.storeKanbanCard(makeKanbanCardStub())
-  await inMemory.storeKanbanCard(makeKanbanCardStub())
-
-  return inMemory
-}
-
 type SutTypes = {
   sut: RemoveKanbanCardExpressAdapter
-  deleteKanbanCardRepositoryInMemoryAdapter: ForDeleteKanbanCardPort
-  findAllKanbanCardsRepositoryInMemoryAdapter: ForFindAllKanbanCardsPort
+  kanbanCardRepositoryInMemoryAdapter: KanbanCardRepositoryInMemoryAdapter
 }
 
 const makeSut = async (): Promise<SutTypes> => {
-  const kanbanCardRepositoryInMemoryAdapter = makeKanbanCardRepositoryInMemoryAdapter()
-
-  const deleteKanbanCardRepositoryInMemoryAdapter: ForDeleteKanbanCardPort =
-    await kanbanCardRepositoryInMemoryAdapter
-  const findAllKanbanCardsRepositoryInMemoryAdapter: ForFindAllKanbanCardsPort =
-    await kanbanCardRepositoryInMemoryAdapter
+  const kanbanCardRepositoryInMemoryAdapter = new KanbanCardRepositoryInMemoryAdapter()
   const removeKanbanCardUseCase = new RemoveKanbanCardUseCase(
-    deleteKanbanCardRepositoryInMemoryAdapter,
-    findAllKanbanCardsRepositoryInMemoryAdapter
+    kanbanCardRepositoryInMemoryAdapter,
+    kanbanCardRepositoryInMemoryAdapter
   )
 
   const sut = new RemoveKanbanCardExpressAdapter(removeKanbanCardUseCase)
 
   return {
     sut,
-    deleteKanbanCardRepositoryInMemoryAdapter,
-    findAllKanbanCardsRepositoryInMemoryAdapter
+    kanbanCardRepositoryInMemoryAdapter
   }
 }
 
@@ -57,18 +40,26 @@ describe('Remove Kanban Card Express Adapter', () => {
   })
 
   test('should return success object with 200 status code if operation dont have any error', async () => {
-    const { sut } = await makeSut()
+    const { sut, kanbanCardRepositoryInMemoryAdapter } = await makeSut()
 
-    const testable = await sut.handle(makeFixture(), makeExpressResponseMock())
+    const { id: EXPECTED_ID } = await kanbanCardRepositoryInMemoryAdapter.storeKanbanCard(
+      makeKanbanCardStub()
+    )
+    const { id: TESTABLE_ID } = await kanbanCardRepositoryInMemoryAdapter.storeKanbanCard(
+      makeKanbanCardStub()
+    )
+
+    const testable = await sut.handle(makeFixture({ id: TESTABLE_ID }), makeExpressResponseMock())
 
     expect(testable).toEqual({
       statusCode: 200,
       result: [
-        expect.objectContaining({
+        {
+          id: EXPECTED_ID,
           content: makeKanbanCardStub().content,
           list: makeKanbanCardStub().list,
           title: makeKanbanCardStub().title
-        })
+        }
       ]
     })
   })
