@@ -3,7 +3,11 @@ const { compilerOptions } = require('./tsconfig.json')
 
 module.exports = {
   roots: ['./src', './tests'],
-  collectCoverageFrom: ['./src/**/*.ts', './tests/**/*.ts', '!<rootDir>/src/main/**'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/tests/**/*.ts',
+    '!<rootDir>/src/startup/**'
+  ],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
   transform: {
