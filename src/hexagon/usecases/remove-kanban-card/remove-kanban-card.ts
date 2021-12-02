@@ -2,7 +2,7 @@ import { ForDeleteKanbanCardPort, ForFindAllKanbanCardsPort } from '@src/hexagon
 import { ForRemoveKanbanCardPort } from '@src/hexagon/ports/driver'
 import { validateObjectProperties } from '@src/hexagon/usecases/utils'
 import { UseCase } from '@src/hexagon/usecases/protocols'
-import { InvalidIdProvidedError } from '../errors'
+import { InvalidIdProvidedError } from '@src/hexagon/usecases/errors'
 
 export class RemoveKanbanCardUseCase
   implements UseCase<ForRemoveKanbanCardPort.Params, ForRemoveKanbanCardPort.Result>
