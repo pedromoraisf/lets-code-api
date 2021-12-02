@@ -7,8 +7,14 @@ export class GenerateEncryptedCodeJwtAdapter implements ForGenerateEncryptedCode
     lifetime,
     toEncrypt
   }: ForGenerateEncryptedCodePort.Params): ForGenerateEncryptedCodePort.Result {
-    return jwt.sign(toEncrypt, env.CONFIG.JWT_SECRET, {
+    const token = jwt.sign(toEncrypt, env.CONFIG.JWT_SECRET, {
       expiresIn: lifetime
     })
+
+    return {
+      access_token: token,
+      expires_in: lifetime,
+      token_type: 'Bearer'
+    }
   }
 }
