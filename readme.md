@@ -5,19 +5,7 @@
   </a>
 </p>
 
-## Abordagens da perspectiva de alto-nível da Engenharia de Software
-- Arquitetura Hexagonal, para atender o tópico que demandava arquiteturas que separem responsabilidades.
-- Skeleton Walking, a fim de modelar todo o cenário de engenharia em volta do projeto, no inínio do projeto, a fim de economizar recursos humanos não necessários nos últimos dias de desenvolvimento.
-- Continuous Delivery, casando com a abordagem do Skeleton Walking, modelando um cenário confiável de *commit stage* e *acceptance stage*, removendo esforço humano desnecessário na validação de aceitação e qualidade do projeto.
-  - Commit stage
-    - Ao realizar um commit, todos os testes unitários relacionados aos arquivos modificados eram executados.
-    - Ao realizar um push contra o repositório no GitHub, todas as suítes de testes unitários e de integração rodavam. No final, tinha-se a cobertura de testes da *codebase*.
-  - Acceptance stage
-    - No momento que o código entrava no ramo princípal do repositório do GitHub, uma rotina com todos os testes unitários, integração e e2e (a fim de automatizar a aceitação proposta pelo avaliador) eram executados.
-
 ## Como executar?
-Como especificado na seção *Abordagens da perspectiva de alto-nível da Engenharia de Software*, o projeto conta com uma vasta cobertura de testes, a fim de garantir os critérios de aceitação do avaliador.
-
 Essa seção tem como objetivo guiar dois tipos de execução. Fica a critério.
 
 Para execução em modo de desenvolvimento, ou para execução de testes E2E, o usuário deve clonar o projeto em sua máquina, instalar suas dependências e executá-lo.
@@ -47,6 +35,16 @@ $ npm run test:unit
 Basta seguir o passo introdutório dessa seção. A configuração das variáveis de ambiente segue a regra abaixo:
 
 Para `NODE_ENV` com o valor `dev` ou falso - `null`, `undefined` ou `falso` - entra em vigor o arquivo `./.env.example`. Para outros tipos de ambiente de execução, entra em vigor o arquivo (não versionado) `.env` ou o ambiente do host de execução.
+
+## Abordagens da perspectiva de alto-nível da Engenharia de Software
+- Arquitetura Hexagonal, para atender o tópico que demandava arquiteturas que separem responsabilidades.
+- Skeleton Walking, a fim de modelar todo o cenário de engenharia em volta do projeto, no inínio do projeto, a fim de economizar recursos humanos não necessários nos últimos dias de desenvolvimento.
+- Continuous Delivery, casando com a abordagem do Skeleton Walking, modelando um cenário confiável de *commit stage* e *acceptance stage*, removendo esforço humano desnecessário na validação de aceitação e qualidade do projeto.
+  - Commit stage
+    - Ao realizar um commit, todos os testes unitários relacionados aos arquivos modificados eram executados.
+    - Ao realizar um push contra o repositório no GitHub, todas as suítes de testes unitários e de integração rodavam. No final, tinha-se a cobertura de testes da *codebase*.
+  - Acceptance stage
+    - No momento que o código entrava no ramo princípal do repositório do GitHub, uma rotina com todos os testes unitários, integração e e2e (a fim de automatizar a aceitação proposta pelo avaliador) eram executados.
 
 ## Observações importantes
 #### **Não adição de um adaptador para um banco de dados real** 
