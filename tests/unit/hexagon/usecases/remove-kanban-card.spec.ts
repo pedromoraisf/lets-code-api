@@ -1,5 +1,5 @@
 import { KanbanCardRepositoryInMemoryAdapter } from '@src/adapters/db'
-import { ForDeleteKanbanCardPort } from '@src/hexagon/ports/driven'
+import { ForDeleteKanbanCardPort, ForFindAllKanbanCardsPort } from '@src/hexagon/ports/driven'
 import { RemoveKanbanCardUseCase } from '@src/hexagon/usecases'
 import { makeKanbanCardStub } from '@tests/unit/hexagon/entities/stubs'
 
@@ -10,16 +10,24 @@ const makeFixture = ({ id = 'any_id' }: any = {}) => ({
 type SutTypes = {
   sut: RemoveKanbanCardUseCase
   deleteKanbanCardInMemoryAdapter: ForDeleteKanbanCardPort
+  findAllKanbanCardsInMemoryAdapter: ForFindAllKanbanCardsPort
 }
 
 const makeSut = (): SutTypes => {
-  const deleteKanbanCardInMemoryAdapter = new KanbanCardRepositoryInMemoryAdapter()
+  const deleteKanbanCardInMemoryAdapter: ForDeleteKanbanCardPort =
+    new KanbanCardRepositoryInMemoryAdapter()
+  const findAllKanbanCardsInMemoryAdapter: ForFindAllKanbanCardsPort =
+    new KanbanCardRepositoryInMemoryAdapter()
 
-  const sut = new RemoveKanbanCardUseCase(deleteKanbanCardInMemoryAdapter)
+  const sut = new RemoveKanbanCardUseCase(
+    deleteKanbanCardInMemoryAdapter,
+    findAllKanbanCardsInMemoryAdapter
+  )
 
   return {
     sut,
-    deleteKanbanCardInMemoryAdapter
+    deleteKanbanCardInMemoryAdapter,
+    findAllKanbanCardsInMemoryAdapter
   }
 }
 
@@ -59,11 +67,35 @@ describe('Remove Kanban Card Use Case', () => {
     })
   })
 
+  describe('Find all kanban cards repository', () => {
+    test('should call repository method correctly', async () => {
+      const { sut, findAllKanbanCardsInMemoryAdapter } = makeSut()
+
+      jest.spyOn(findAllKanbanCardsInMemoryAdapter, 'findAllKanbanCards')
+
+      await sut.execute(makeFixture())
+
+      expect(findAllKanbanCardsInMemoryAdapter.findAllKanbanCards).toHaveBeenCalledTimes(1)
+    })
+
+    test('should throw an error if repository throw a low-level error', async () => {
+      const { sut, findAllKanbanCardsInMemoryAdapter } = makeSut()
+
+      jest
+        .spyOn(findAllKanbanCardsInMemoryAdapter, 'findAllKanbanCards')
+        .mockReturnValueOnce(Promise.reject(new Error('any_low_level_error')))
+
+      const testable = async () => await sut.execute(makeFixture())
+
+      return await expect(testable).rejects.toThrowError(new Error('any_low_level_error'))
+    })
+  })
+
   test('should return kanban cards list if operation dont have errors', async () => {
-    const { sut, deleteKanbanCardInMemoryAdapter } = makeSut()
+    const { sut, findAllKanbanCardsInMemoryAdapter } = makeSut()
 
     jest
-      .spyOn(deleteKanbanCardInMemoryAdapter, 'deleteKanbanCard')
+      .spyOn(findAllKanbanCardsInMemoryAdapter, 'findAllKanbanCards')
       .mockReturnValueOnce(
         Promise.resolve([makeKanbanCardStub(), makeKanbanCardStub(), makeKanbanCardStub()])
       )

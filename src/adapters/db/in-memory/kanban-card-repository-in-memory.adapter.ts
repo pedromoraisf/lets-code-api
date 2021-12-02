@@ -47,6 +47,6 @@ export class KanbanCardRepositoryInMemoryAdapter
 
     this._kanbanCards.splice(kanbanCardPosition, 1)
 
-    return await Promise.resolve(this._kanbanCards)
+    return await Promise.resolve()
   }
 }

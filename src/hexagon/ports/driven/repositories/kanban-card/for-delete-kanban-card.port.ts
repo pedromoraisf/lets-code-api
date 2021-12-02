@@ -1,5 +1,4 @@
-import { KanbanCardDto } from '@src/hexagon/entities'
-
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 export interface ForDeleteKanbanCardPort {
   deleteKanbanCard: (
     data: ForDeleteKanbanCardPort.Params
@@ -11,5 +10,5 @@ export namespace ForDeleteKanbanCardPort {
     id: string
   }
 
-  export type Result = KanbanCardDto[]
+  export type Result = void
 }
