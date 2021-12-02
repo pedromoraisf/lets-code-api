@@ -44,6 +44,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('Create Kanban Card Express Adapter', () => {
+  beforeAll(() => {
+    jest.spyOn(console, 'error').mockReturnValueOnce()
+  })
+
+  afterAll(() => {
+    jest.resetAllMocks()
+  })
+
   test('should return success object with 202 status code if operation dont have any error', async () => {
     const { sut } = makeSut()
 
@@ -70,5 +78,18 @@ describe('Create Kanban Card Express Adapter', () => {
     })
   })
 
-  test.todo('should return error object with 500~ status code if operation have server error')
+  test('should return error object with 500~ status code if operation have server error', async () => {
+    const { sut, kanbanCardRepositoryInMemoryAdapter } = makeSut()
+
+    jest
+      .spyOn(kanbanCardRepositoryInMemoryAdapter, 'storeKanbanCard')
+      .mockReturnValueOnce(Promise.reject(new Error('any_low_level_error')))
+
+    const testable = await sut.handle(makeFixture(), makeExpressResponseMock())
+
+    expect(testable).toEqual({
+      statusCode: 500,
+      result: 'server error'
+    })
+  })
 })
