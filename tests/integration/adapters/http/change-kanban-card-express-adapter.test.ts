@@ -27,7 +27,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-describe('Update Kanban Card Express Adapter', () => {
+describe('Change Kanban Card Express Adapter', () => {
   beforeAll(() => {
     jest.spyOn(console, 'error').mockReturnValueOnce()
   })
@@ -56,7 +56,18 @@ describe('Update Kanban Card Express Adapter', () => {
   describe('Client errors', () => {
     test.todo('should return error object with 400 status code if operation receive invalid params')
 
-    test.todo('should return error object with 404 status code if operation receive not found id')
+    test('should return error object with 404 status code if operation receive not found id', async () => {
+      const { sut } = makeSut()
+
+      const NOT_PERSISTED_FIXTURE = makeFixture()
+
+      const testable = await sut.handle(NOT_PERSISTED_FIXTURE, makeExpressResponseMock())
+
+      expect(testable).toEqual({
+        statusCode: 404,
+        result: 'invalid id provided'
+      })
+    })
   })
 
   test.todo('should return error object with 500~ status code if operation have server error')
