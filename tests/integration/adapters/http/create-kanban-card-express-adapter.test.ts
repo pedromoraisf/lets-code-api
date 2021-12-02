@@ -19,7 +19,7 @@ const makeFixture = ({
 
 const makeExpressResponseMock = (): any => ({
   status: statusCode => ({
-    send: result => ({
+    send: (result = undefined) => ({
       statusCode,
       result
     })
@@ -59,7 +59,16 @@ describe('Create Kanban Card Express Adapter', () => {
     })
   })
 
-  test.todo('should return error object with 400 status code if operation have client error')
+  test('should return error object with 400 status code if operation have client error', async () => {
+    const { sut } = makeSut()
+
+    const testable = await sut.handle(makeFixture({ title: false }), makeExpressResponseMock())
+
+    expect(testable).toEqual({
+      statusCode: 400,
+      result: 'wrong parameters were sent'
+    })
+  })
 
   test.todo('should return error object with 500~ status code if operation have server error')
 })
