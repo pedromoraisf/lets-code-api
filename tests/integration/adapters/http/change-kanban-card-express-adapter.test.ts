@@ -54,7 +54,16 @@ describe('Change Kanban Card Express Adapter', () => {
   })
 
   describe('Client errors', () => {
-    test.todo('should return error object with 400 status code if operation receive invalid params')
+    test('should return error object with 400 status code if operation receive invalid params', async () => {
+      const { sut } = makeSut()
+
+      const testable = await sut.handle(makeFixture({ title: false }), makeExpressResponseMock())
+
+      expect(testable).toEqual({
+        statusCode: 400,
+        result: 'wrong parameters were sent'
+      })
+    })
 
     test('should return error object with 404 status code if operation receive not found id', async () => {
       const { sut } = makeSut()
