@@ -18,6 +18,11 @@ export class CreateKanbanCardExpressAdapter {
       if (error instanceof InvalidParamsError) {
         return res.status(400).send(error.message)
       }
+
+      if (error instanceof Error) {
+        console.error(error.message)
+        return res.status(500).send('server error')
+      }
     }
   }
 }
