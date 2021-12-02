@@ -2,6 +2,7 @@ import { ForUpdateKanbanCardPort } from '@src/hexagon/ports/driven'
 import { ForChangeKanbanCardPort } from '@src/hexagon/ports/driver'
 import { validateObjectProperties } from '@src/hexagon/usecases/utils'
 import { UseCase } from '@src/hexagon/usecases/protocols'
+import { InvalidParamsError } from '../errors'
 
 export class ChangeKanbanCardUseCase
   implements UseCase<ForChangeKanbanCardPort.Params, ForChangeKanbanCardPort.Result>
@@ -10,7 +11,7 @@ export class ChangeKanbanCardUseCase
 
   async execute(data: ForChangeKanbanCardPort.Params): Promise<ForChangeKanbanCardPort.Result> {
     if (this.haveFalsyProperty(data)) {
-      throw new Error()
+      throw new InvalidParamsError()
     }
 
     return await this.forUpdateKanbanCard.updateKanbanCard(data)

@@ -1,6 +1,7 @@
 import { KanbanCardRepositoryInMemoryAdapter } from '@src/adapters/db'
 import { ForUpdateKanbanCardPort } from '@src/hexagon/ports/driven'
 import { ChangeKanbanCardUseCase } from '@src/hexagon/usecases'
+import { makeKanbanCardStub } from '@tests/unit/hexagon/entities/stubs'
 
 const makeFixture = ({
   id = 'any_id',
@@ -21,6 +22,9 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const updateKanbanCardInMemoryAdapter = new KanbanCardRepositoryInMemoryAdapter()
+  jest
+    .spyOn(updateKanbanCardInMemoryAdapter, 'updateKanbanCard')
+    .mockReturnValue(Promise.resolve(makeKanbanCardStub()))
 
   const sut = new ChangeKanbanCardUseCase(updateKanbanCardInMemoryAdapter)
 

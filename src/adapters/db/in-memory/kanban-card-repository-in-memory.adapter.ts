@@ -30,7 +30,7 @@ export class KanbanCardRepositoryInMemoryAdapter
   async updateKanbanCard(
     data: ForUpdateKanbanCardPort.Params
   ): Promise<ForUpdateKanbanCardPort.Params> {
-    const kanbanCardPosition = this._kanbanCards.findIndex(persisted => persisted.id === data.id)
+    const kanbanCardPosition = await this.findKanbanCardIndex(data.id)
 
     this._kanbanCards.splice(kanbanCardPosition, 1, data)
 
@@ -44,15 +44,21 @@ export class KanbanCardRepositoryInMemoryAdapter
   async deleteKanbanCard(
     data: ForDeleteKanbanCardPort.Params
   ): Promise<ForDeleteKanbanCardPort.Result> {
-    const kanbanCardPosition = this._kanbanCards.findIndex(persisted => persisted.id === data.id)
-
-    const NOT_FOUND = -1
-    if (kanbanCardPosition === NOT_FOUND) {
-      throw new InvalidIdProvidedError()
-    }
+    const kanbanCardPosition = await this.findKanbanCardIndex(data.id)
 
     this._kanbanCards.splice(kanbanCardPosition, 1)
 
     return await Promise.resolve()
+  }
+
+  private async findKanbanCardIndex(id: string) {
+    const kanbanCardIndex = this._kanbanCards.findIndex(persisted => persisted.id === id)
+
+    const NOT_FOUND = -1
+    if (kanbanCardIndex === NOT_FOUND) {
+      throw new InvalidIdProvidedError()
+    }
+
+    return kanbanCardIndex
   }
 }
