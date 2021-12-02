@@ -18,6 +18,11 @@ export class RemoveKanbanCardExpressAdapter {
       if (error instanceof InvalidIdProvidedError) {
         return res.status(404).send(error.message)
       }
+
+      if (error instanceof Error) {
+        console.error(error.message)
+        return res.status(500).send('server error')
+      }
     }
   }
 }
