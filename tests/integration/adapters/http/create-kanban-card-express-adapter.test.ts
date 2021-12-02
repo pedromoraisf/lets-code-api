@@ -2,6 +2,7 @@ import { KanbanCardRepositoryInMemoryAdapter } from '@src/adapters/db'
 import { CreateKanbanCardExpressAdapter } from '@src/adapters/http'
 import { ForStoreKanbanCardPort } from '@src/hexagon/ports/driven'
 import { CreateKanbanCardUseCase } from '@src/hexagon/usecases'
+import { makeExpressResponseMock } from '@tests/integration/adapters/http/mocks'
 
 const makeFixture = ({
   title = 'any_title',
@@ -15,15 +16,6 @@ const makeFixture = ({
   },
   params: {},
   query: {}
-})
-
-const makeExpressResponseMock = (): any => ({
-  status: statusCode => ({
-    send: (result = undefined) => ({
-      statusCode,
-      result
-    })
-  })
 })
 
 type SutTypes = {
