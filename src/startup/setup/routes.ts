@@ -7,11 +7,12 @@ import {
   makeListKanbanCardsExpressAdapter,
   makeRemoveKanbanCardExpressAdapter
 } from '@src/startup/factories/adapters/http'
+import { jwtBearerAuthentication } from '@src/startup/middlewares'
 
 export const setupRoutes = (app: Express) => {
   app.post('/login', makeAuthenticationExpressAdapter().handle)
-  app.post('/cards', makeCreateKanbanCardExpressAdapter().handle)
-  app.put('/cards/:id', makeChangeKanbanCardExpressAdapter().handle)
-  app.get('/cards', makeListKanbanCardsExpressAdapter().handle)
-  app.delete('/cards/:id', makeRemoveKanbanCardExpressAdapter().handle)
+  app.post('/cards', jwtBearerAuthentication, makeCreateKanbanCardExpressAdapter().handle)
+  app.put('/cards/:id', jwtBearerAuthentication, makeChangeKanbanCardExpressAdapter().handle)
+  app.get('/cards', jwtBearerAuthentication, makeListKanbanCardsExpressAdapter().handle)
+  app.delete('/cards/:id', jwtBearerAuthentication, makeRemoveKanbanCardExpressAdapter().handle)
 }
