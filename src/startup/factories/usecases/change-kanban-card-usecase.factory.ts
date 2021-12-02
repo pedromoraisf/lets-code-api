@@ -1,5 +1,5 @@
 import { ChangeKanbanCardUseCase } from '@src/hexagon/usecases'
-import { kanbanCardRepositoryInMemoryAdapterSingleton } from '@src/startup/factories/adapters/db'
+import { updateKanbanCardInMemoryAdapterSingleton } from '@src/startup/factories/adapters/db'
 
 export const makeChangeKanbanCardUseCase = () =>
-  new ChangeKanbanCardUseCase(kanbanCardRepositoryInMemoryAdapterSingleton)
+  new ChangeKanbanCardUseCase(updateKanbanCardInMemoryAdapterSingleton)
