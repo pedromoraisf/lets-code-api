@@ -1,3 +1,6 @@
+import { env } from '@src/config'
 import { app } from '@src/startup/app'
 
-app.listen(3000, () => console.log('Online at 3000'))
+app.listen(env.CONFIG.PORT, env.CONFIG.HOST, () =>
+  console.log(`Online at ${env.CONFIG.HOST}/${env.CONFIG.PORT}`)
+)
