@@ -15,7 +15,7 @@ type SutTypes = {
   kanbanCardRepositoryInMemoryAdapter: KanbanCardRepositoryInMemoryAdapter
 }
 
-const makeSut = async (): Promise<SutTypes> => {
+const makeSut = (): SutTypes => {
   const kanbanCardRepositoryInMemoryAdapter = new KanbanCardRepositoryInMemoryAdapter()
   const removeKanbanCardUseCase = new RemoveKanbanCardUseCase(
     kanbanCardRepositoryInMemoryAdapter,
@@ -40,7 +40,7 @@ describe('Remove Kanban Card Express Adapter', () => {
   })
 
   test('should return success object with 200 status code if operation dont have any error', async () => {
-    const { sut, kanbanCardRepositoryInMemoryAdapter } = await makeSut()
+    const { sut, kanbanCardRepositoryInMemoryAdapter } = makeSut()
 
     const { id: EXPECTED_ID } = await kanbanCardRepositoryInMemoryAdapter.storeKanbanCard(
       makeKanbanCardStub()
@@ -64,7 +64,18 @@ describe('Remove Kanban Card Express Adapter', () => {
     })
   })
 
-  test.todo('should return error object with 404 status code if operation have client error')
+  test('should return error object with 404 status code if operation have client error', async () => {
+    const { sut } = makeSut()
+
+    const NOT_PERSISTED_FIXTURE = makeFixture()
+
+    const testable = await sut.handle(NOT_PERSISTED_FIXTURE, makeExpressResponseMock())
+
+    expect(testable).toEqual({
+      statusCode: 404,
+      result: 'invalid id provided'
+    })
+  })
 
   test.todo('should return error object with 500~ status code if operation have server error')
 })
