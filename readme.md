@@ -38,8 +38,8 @@ Para `NODE_ENV` com o valor `dev` ou falso - `null`, `undefined` ou `falso` - en
 
 ## Abordagens da perspectiva de alto-nível da Engenharia de Software
 - Arquitetura Hexagonal, para atender o tópico que demandava arquiteturas que separem responsabilidades.
-- Skeleton Walking, a fim de modelar todo o cenário de engenharia em volta do projeto, no inínio do projeto, a fim de economizar recursos humanos não necessários nos últimos dias de desenvolvimento.
-- Continuous Delivery, casando com a abordagem do Skeleton Walking, modelando um cenário confiável de *commit stage* e *acceptance stage*, removendo esforço humano desnecessário na validação de aceitação e qualidade do projeto.
+- *Walking Skeleton*, a fim de modelar todo o cenário de engenharia em volta do projeto, no inínio do projeto, a fim de economizar recursos humanos não necessários nos últimos dias de desenvolvimento.
+- *Continuous Delivery*, casando com a abordagem do Skeleton Walking, modelando um cenário confiável de *commit stage* e *acceptance stage*, removendo esforço humano desnecessário na validação de aceitação e qualidade do projeto.
   - Commit stage
     - Ao realizar um commit, todos os testes unitários relacionados aos arquivos modificados eram executados.
     - Ao realizar um push contra o repositório no GitHub, todas as suítes de testes unitários e de integração rodavam. No final, tinha-se a cobertura de testes da *codebase*.
