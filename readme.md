@@ -21,7 +21,10 @@ $ npm run start
 ```
 
 #### Guia de testes
-- E2E: A fim de executar o projeto de uma forma mais automática, está disponível uma collection do Postman contendo o exemplo de uso completo. Os arquivos para importação estão em `./tests/acceptance/**`. O comando abaixo 
+- E2E: A fim de executar o projeto de uma forma automática, está disponível uma collection do Postman contendo o exemplo de uso completo. Os arquivos para importação estão em `./tests/acceptance/**`. O comando abaixo executa a suite dessa categoria de testes em ambiente de desenvolvimento:
+```sh
+$ npm run test:acceptance:e2e:dev
+```
 - Integração: Todas as suítes dessa categoria de testes podem ser executadas utilizando o comando:
 ```sh
 $ npm run test:integration
@@ -32,7 +35,7 @@ $ npm run test:unit
 ```
 
 #### Guia de execução em ambiente de desenvolvimento
-Basta seguir o passo introdutório dessa seção. A configuração das variáveis de ambiente segue a regra abaixo:
+Basta seguir o passo introdutório descrito no início dessa seção. A configuração das variáveis de ambiente segue a regra abaixo:
 
 Para `NODE_ENV` com o valor `dev` ou falso - `null`, `undefined` ou `falso` - entra em vigor o arquivo `./.env.example`. Para outros tipos de ambiente de execução, entra em vigor o arquivo (não versionado) `.env` ou o ambiente do host de execução.
 
